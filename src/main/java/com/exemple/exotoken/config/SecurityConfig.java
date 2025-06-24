@@ -13,4 +13,8 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+    //SecurityFilterChain
+    //Authentication manager
+    //Authentication provider
 }
