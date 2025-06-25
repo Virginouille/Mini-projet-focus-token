@@ -35,12 +35,26 @@ public class JwtService {
                 .compact();
     }
 
-    //Méthode qui confectionne la clé de signature
+    /**Méthode qui confectionne la clé de signature*/
     private Key getSignedKey() {
        byte [] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
        return Keys.hmacShaKeyFor(keyBytes);
     }
-    //isValidToken
+
+    /**Méthode qui vérifie la validité du token
+     * en verifiant l'intégrité du header
+     * vérifiant l'intégrité du payload
+     * vérifiant l'intégrité de la signature*/
+    private static boolean isTokenValid(String token) {
+        String [] parts = token.split("\\.");
+
+        String header = parts[0];
+        String payload = parts[1];
+        String signature = parts[2];
+
+    }
+
+
     //allClaims
     //PersonnalisableClaims
 
