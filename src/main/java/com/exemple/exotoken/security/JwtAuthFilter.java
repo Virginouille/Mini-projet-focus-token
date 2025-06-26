@@ -25,7 +25,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
 
 
-    /**
+    /*****
      * Méthode appelée automatiquement à chaque requête HTTP.
      * Ce filtre s'exécute une seule fois par requête, car il hérite de `OncePerRequestFilter`.
      */
