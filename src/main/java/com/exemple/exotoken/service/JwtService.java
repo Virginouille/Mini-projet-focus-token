@@ -22,13 +22,13 @@ public class JwtService {
     private final SecurityConfig securityConfig;
 
     //Expiration Time
-    private static final int EXPIRATION_TIME = 1000 * 60;
+    private static final int EXPIRATION_TIME = 1000 * 60; //Expiration temporaire pour tests
 
     //Ajout de la clé signature du token
     private static final String SECRET_KEY = "dCGl4vh7XheffkTozKq7rrPrku+SnUL6dDtEZsAv5Tw=";
 
     //Generate token
-    private String generateToken(String username) {
+    public String generateToken(String username) {
         return Jwts.builder()
                 //Le header est généré par défaut pas jjwt
                 .setSubject(username)
@@ -49,7 +49,7 @@ public class JwtService {
         return Jwts.parserBuilder()
                 .setSigningKey(getSignedKey())
                 .build()
-                .parseClaimsJwt(token)
+                .parseClaimsJws(token)
                 .getBody();
     }
 
@@ -61,12 +61,12 @@ public class JwtService {
     }
 
     /**Méthode pour extraire le claims username du token*/
-    private String extractUsername(String token) {
+    public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
     /**Méthode pour extraire uniquement le claim date expiration*/
-    private Date extractExpiration(String token) {
+    public Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
 
@@ -76,7 +76,7 @@ public class JwtService {
     }
 
 
-    /**Méthode qui vérifie la validité du token*/
+    /**Méthode qui vérifie la validité du token*/ //Améliorer avec une validation plus poussée via username
     public boolean isTokenValid(String token) {
         if (token == null) {
             return false;
@@ -89,8 +89,5 @@ public class JwtService {
         }
 
     }
-//
-//
-//    //PersonnalisableClaims
 
 }

@@ -22,7 +22,6 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-
         System.out.println("Initializing Data");
 
         userRepository.deleteAll();
@@ -30,6 +29,5 @@ public class DataInitializer implements CommandLineRunner {
 
         userService.createUser("admin1", "admindededededed", RoleEnum.ROLE_ADMIN);
         userService.createUser("user1", "admindededededed", RoleEnum.ROLE_USER);
-
     }
 }
