@@ -1,6 +1,7 @@
 package com.exemple.exotoken.service;
 
 import com.exemple.exotoken.config.SecurityConfig;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.function.Function;
 
 @Service
 @AllArgsConstructor
@@ -41,21 +43,52 @@ public class JwtService {
        return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    /**Méthode qui vérifie la validité du token
-     * en verifiant l'intégrité du header
-     * vérifiant l'intégrité du payload
-     * vérifiant l'intégrité de la signature*/
-    private static boolean isTokenValid(String token) {
-        String [] parts = token.split("\\.");
+    /**Méthode pour extraire tous les claims d'un token*/
+    private Claims extractAllClaims(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(getSignedKey())
+                .build()
+                .parseClaimsJwt(token)
+                .getBody();
+    }
 
-        String header = parts[0];
-        String payload = parts[1];
-        String signature = parts[2];
+    /**Méthode générique pour extraire uniquement un type de claims*
+     */
+    private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+        final Claims claims = extractAllClaims(token);
+        return claimsResolver.apply(claims);
+    }
 
+    /**Méthode pour extraire le claims username du token*/
+    private String extractUsername(String token) {
+        return extractClaim(token, Claims::getSubject);
+    }
+
+    /**Méthode pour extraire uniquement le claim date expiration*/
+    private Date extractExpiration(String token) {
+        return extractClaim(token, Claims::getExpiration);
+    }
+
+    /**Méthode qui vérifie si le claims est valide*/
+    public boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
     }
 
 
-    //allClaims
-    //PersonnalisableClaims
+//    /**Méthode qui vérifie la validité du token
+//     * en verifiant l'intégrité du header
+//     * vérifiant l'intégrité du payload
+//     * vérifiant l'intégrité de la signature*/
+//    private static boolean isTokenValid(String token) {
+//        String [] parts = token.split("\\.");
+//
+//        String header = parts[0];
+//        String payload = parts[1]; Ici faire usage des méthodes de récupération des claims
+//        String signature = parts[2];
+//
+//    }
+//
+//
+//    //PersonnalisableClaims
 
 }
