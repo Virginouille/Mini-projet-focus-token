@@ -1,4 +1,4 @@
-package com.exemple.exotoken.security;
+package com.exemple.exotoken.config;
 
 import com.exemple.exotoken.repository.UserRepository;
 import lombok.AllArgsConstructor;

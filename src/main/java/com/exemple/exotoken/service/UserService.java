@@ -28,7 +28,7 @@ public class UserService {
 
         //Création user avec username, password et role en enum
         User user = new User();
-        user.setPrenom(username);
+        user.setUsername(username);
         String motDePasse = passwordEncoder.encode(password);
         user.setPassword(motDePasse);
         user.setRole(role);
