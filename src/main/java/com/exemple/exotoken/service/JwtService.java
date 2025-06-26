@@ -2,6 +2,7 @@ package com.exemple.exotoken.service;
 
 import com.exemple.exotoken.config.SecurityConfig;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -29,7 +30,7 @@ public class JwtService {
     //Generate token
     private String generateToken(String username) {
         return Jwts.builder()
-
+                //Le header est généré par défaut pas jjwt
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
@@ -75,18 +76,19 @@ public class JwtService {
     }
 
 
-//    /**Méthode qui vérifie la validité du token
-//     * en verifiant l'intégrité du header
-//     * vérifiant l'intégrité du payload
-//     * vérifiant l'intégrité de la signature*/
-//    private static boolean isTokenValid(String token) {
-//        String [] parts = token.split("\\.");
-//
-//        String header = parts[0];
-//        String payload = parts[1]; Ici faire usage des méthodes de récupération des claims
-//        String signature = parts[2];
-//
-//    }
+    /**Méthode qui vérifie la validité du token*/
+    public boolean isTokenValid(String token) {
+        if (token == null) {
+            return false;
+        }
+
+        try {
+            return !isTokenExpired(token);
+        } catch (JwtException | IllegalArgumentException e) {
+            return false;
+        }
+
+    }
 //
 //
 //    //PersonnalisableClaims
