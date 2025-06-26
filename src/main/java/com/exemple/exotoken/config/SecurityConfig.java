@@ -1,5 +1,6 @@
 package com.exemple.exotoken.config;
 
+import com.exemple.exotoken.security.JwtAuthFilter;
 import com.exemple.exotoken.service.JwtService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
