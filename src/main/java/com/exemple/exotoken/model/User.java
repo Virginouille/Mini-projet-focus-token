@@ -25,8 +25,8 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name="prenom", nullable = false)
-    private String prenom;
+    @Column(name="username", nullable = false)
+    private String username;
 
     @Column(name="password", nullable = false)
     private String password;
@@ -45,7 +45,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return prenom;
+        return username;
     }
 
     @Override
