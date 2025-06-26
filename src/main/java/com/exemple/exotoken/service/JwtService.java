@@ -19,9 +19,6 @@ import java.util.function.Function;
 @AllArgsConstructor
 public class JwtService {
 
-    //injection SecurityConfig
-    private final SecurityConfig securityConfig;
-
     //Expiration Time
     private static final int EXPIRATION_TIME = 1000 * 60; //Expiration temporaire pour tests
 
